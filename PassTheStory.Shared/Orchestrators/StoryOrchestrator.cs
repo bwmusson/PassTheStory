@@ -61,7 +61,7 @@ namespace PassTheStory.Shared.Orchestrators
             story.Parts.Add(part);
 
             part.PartNumber = story.Parts.IndexOf(part);
-            part.StoryName = story.StoryName;
+            //part.StoryName = story.StoryName;
             part.Story = story;
 
             _storyContext.StoryParts.Add(part);

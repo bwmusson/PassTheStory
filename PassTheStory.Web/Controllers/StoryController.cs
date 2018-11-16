@@ -92,6 +92,7 @@ namespace PassTheStory.Web.Controllers
         }
         public async Task<ActionResult> AddPart(StoryPartModel part)
         {
+            //Only NextAuthor (if/then)
             await _storyOrchestrator.AddPart(new StoryPartViewModel
             {
                 PartId = Guid.NewGuid(),
