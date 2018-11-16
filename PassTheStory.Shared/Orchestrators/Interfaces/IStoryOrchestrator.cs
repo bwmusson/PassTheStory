@@ -12,7 +12,9 @@ namespace PassTheStory.Shared.Orchestrators.Interfaces
         Task<int> AddPart(StoryPartViewModel part);
         Task<StoryViewModel> GetStory(Guid id);
         Task<int> SetNextAuthor(Guid storyId, string nextAuthor);
-
+        Task<int> FinishStory(Guid storyId);
+        Task<List<StoryViewModel>> GetFinishedStories();
+        Task<List<StoryViewModel>> GetNewPrompts();
 
     }
 }

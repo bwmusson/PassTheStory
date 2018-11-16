@@ -1,19 +1,18 @@
 ﻿using PassTheStory.Shared.Orchestrators.Interfaces;
 using PassTheStory.Shared.ViewModels;
 using PassTheStory.Web.Models;
+using PassTheStory.Web.Services.Interfaces;
 using System;
 using System.Data;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using PassTheStory.Web.Services;
-using PassTheStory.Web.Services.Interfaces;
 
 namespace PassTheStory.Web.Controllers
 {
     public class StoryController : Controller
     {
         private readonly IStoryOrchestrator _storyOrchestrator;
-        private readonly INextAuthorService _nextAuthorService = new NextAuthorService();
+        private readonly INextAuthorService _nextAuthorService;
 
         public StoryController(IStoryOrchestrator storyOrchestrator)
         {
@@ -30,6 +29,23 @@ namespace PassTheStory.Web.Controllers
             var storyDisplayModel = new StoryDisplayModel()
             {
                 Stories = await _storyOrchestrator.GetAllStories()
+            };
+            return View(storyDisplayModel);
+        }
+
+        public async Task<ActionResult> GetFinishedStories()
+        {
+            var storyDisplayModel = new StoryDisplayModel()
+            {
+                Stories = await _storyOrchestrator.GetFinishedStories()
+            };
+            return View(storyDisplayModel);
+        }
+        public async Task<ActionResult> GetNewPrompts()
+        {
+            var storyDisplayModel = new StoryDisplayModel()
+            {
+                Stories = await _storyOrchestrator.GetNewPrompts()
             };
             return View(storyDisplayModel);
         }
@@ -87,9 +103,14 @@ namespace PassTheStory.Web.Controllers
                 StoryName = part.StoryName
             });
 
-            var nextAuthor = await _nextAuthorService.GetNextAuthor(part.Author);
-            await _storyOrchestrator.SetNextAuthor(part.StoryId, nextAuthor);
-
+            if (part.IsEnd = false){
+                var nextAuthor = await _nextAuthorService.GetNextAuthor(part.Author);
+                await _storyOrchestrator.SetNextAuthor(part.StoryId, nextAuthor);
+            }
+            else
+            {
+                await _storyOrchestrator.FinishStory(part.StoryId);
+            }
 
             return View();
         }

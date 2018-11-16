@@ -13,6 +13,7 @@ namespace PassTheStory.Shared.ViewModels
         public string StoryName { get; set; }
         public virtual IList<StoryPart> Parts { get; set; }
         public string NextAuthor { get; set; }
+        public Boolean IsFinished { get; set; }
 
     }
     public class StoryPartViewModel

@@ -12,6 +12,7 @@ namespace PassTheStory.Web.Models
         public string StoryName { get; set; }
         public virtual IList<StoryPartModel> Parts { get; set; }
         public string NextAuthor { get; set; }
+        public Boolean isFinished { get; set; }
     }
     public class StoryPartModel
     {

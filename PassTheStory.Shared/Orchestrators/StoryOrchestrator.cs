@@ -69,16 +69,37 @@ namespace PassTheStory.Shared.Orchestrators
             return await _storyContext.SaveChangesAsync();
         }
 
+        public async Task<int> FinishStory(Guid storyId)
+        {
+            var story = _storyContext.Stories.Find(storyId);
+            story.IsFinished = true;
+            return await _storyContext.SaveChangesAsync();
+        }
+
         public async Task<List<StoryViewModel>> GetAllStories()
         {
-            var story = await _storyContext.Stories.Select(x => new StoryViewModel
+            var stories = await _storyContext.Stories.Select(x => new StoryViewModel
             {
                 StoryId = x.StoryId,
                 StoryName = x.StoryName,
                 Parts = x.Parts
             }).ToListAsync();
 
-            return story;
+            return stories;
+        }
+
+        public async Task<List<StoryViewModel>> GetFinishedStories()
+        {
+            var stories = _storyContext.Stories.Where(x => x.IsFinished == true);
+
+            return (List<StoryViewModel>)stories;
+        }
+
+        public async Task<List<StoryViewModel>> GetNewPrompts()
+        {
+            var stories = _storyContext.Stories.Where(x => x.Parts.Count == 1);
+
+            return (List<StoryViewModel>)stories;
         }
 
         public async Task<StoryViewModel> GetStory(Guid id)

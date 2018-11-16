@@ -9,6 +9,8 @@ namespace PassTheStory.Web.App_Start
     using Ninject.Web.Common.WebHost;
     using PassTheStory.Shared.Orchestrators;
     using PassTheStory.Shared.Orchestrators.Interfaces;
+    using PassTheStory.Web.Services;
+    using PassTheStory.Web.Services.Interfaces;
     using System;
     using System.Web;
 
@@ -62,6 +64,7 @@ namespace PassTheStory.Web.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<IStoryOrchestrator>().To<StoryOrchestrator>();
+            kernel.Bind<INextAuthorService>().To<NextAuthorService>();
         }        
     }
 }
