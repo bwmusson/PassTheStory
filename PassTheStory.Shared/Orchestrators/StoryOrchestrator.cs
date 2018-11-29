@@ -82,7 +82,7 @@ namespace PassTheStory.Shared.Orchestrators
             {
                 StoryId = x.StoryId,
                 StoryName = x.StoryName,
-                Parts = x.Parts
+                Parts = (IList<StoryPartViewModel>)x.Parts
             }).ToListAsync();
 
             return stories;
@@ -90,21 +90,57 @@ namespace PassTheStory.Shared.Orchestrators
 
         public async Task<List<StoryViewModel>> GetFinishedStories()
         {
-            var stories = _storyContext.Stories.Where(x => x.IsFinished == true);
+            List<Story> st = await _storyContext.Stories
+                .Where(x => x.IsFinished == true).ToListAsync();
 
-            return (List<StoryViewModel>)stories;
+            List<StoryViewModel> stories = new List<StoryViewModel>();
+
+            foreach (Story s in st)
+            {
+                StoryViewModel story = new StoryViewModel
+                {
+                    StoryId = s.StoryId,
+                    StoryName = s.StoryName,
+                    Parts = (IList<StoryPartViewModel>)s.Parts,
+                    NextAuthor = s.NextAuthor,
+                    IsFinished = s.IsFinished
+                };
+
+                stories.Add(story);
+            }
+
+            return stories;
         }
 
         public async Task<List<StoryViewModel>> GetNewPrompts()
         {
-            var stories = _storyContext.Stories.Where(x => x.Parts.Count == 1);
+            var st = await _storyContext.Stories
+                .Where(x => x.Parts.Count == 1)
+                .ToListAsync();
+            List<StoryViewModel> stories = new List<StoryViewModel>();
 
-            return (List<StoryViewModel>)stories;
+            foreach (Story s in st)
+            {
+                StoryViewModel story = new StoryViewModel
+                {
+                    StoryId = s.StoryId,
+                    StoryName = s.StoryName,
+                    Parts = (IList<StoryPartViewModel>)s.Parts,
+                    NextAuthor = s.NextAuthor,
+                    IsFinished = s.IsFinished
+                };
+
+                stories.Add(story);
+            }
+
+            return stories;
         }
 
         public async Task<StoryViewModel> GetStory(Guid id)
         {
-            var story = _storyContext.Stories.Find(id);
+            var story = await _storyContext.Stories
+                .FindAsync(id);
+
             if (story == null)
             {
                 return new StoryViewModel();
@@ -114,7 +150,26 @@ namespace PassTheStory.Shared.Orchestrators
             {
                 StoryId = story.StoryId,
                 StoryName = story.StoryName,
-                Parts = story.Parts
+                Parts = (IList<StoryPartViewModel>)story.Parts
+            };
+
+            return storyView;
+        }
+
+        public async Task<StoryViewModel> GetFinishedTopicStory(string keyword)
+        {
+            var story = await _storyContext.StoryParts
+                .Where(x => x.Story.IsFinished == true
+                    && (x.StoryName.Contains(keyword) 
+                    || x.PartText.Contains(keyword)))
+                .OrderBy(c => Guid.NewGuid())
+                .FirstOrDefaultAsync();
+
+            var storyView = new StoryViewModel
+            {
+                StoryId = story.StoryId,
+                StoryName = story.StoryName,
+                Parts = (IList<StoryPartViewModel>)story.Story.Parts
             };
 
             return storyView;

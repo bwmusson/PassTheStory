@@ -1,16 +1,20 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using PassTheStory.Web.Models;
 using PassTheStory.Web.Services.Interfaces;
-using PassTheStory.Web.Models;
+using System;
+using System.Linq;
 
 namespace PassTheStory.Web.Services
 {
     public class NextAuthorService : INextAuthorService
     {
         private readonly ApplicationDbContext _applicationDbContext;
+        
+        public NextAuthorService(ApplicationDbContext applicationDbContext)
+        {
+            _applicationDbContext = applicationDbContext;
+        }
 
-        public async Task<string> GetNextAuthor(ApplicationUser lastAuthor)
+        public string GetNextAuthor(ApplicationUser lastAuthor)
         {
             ApplicationUser nextAuthor = lastAuthor;
             while (nextAuthor.Equals(lastAuthor))

@@ -64,6 +64,10 @@ namespace PassTheStory.Web.Models
 
     public class RegisterViewModel
     {
+        [Required]   
+        [Display(Name = "UserRoles")]   
+        public string UserRoles { get; set; }         
+        
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

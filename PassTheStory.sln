@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassTheStory.Shared", "Pass
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassTheStory.Test", "PassTheStory.Test\PassTheStory.Test.csproj", "{2978EC78-702C-4C29-BA5A-CC35534DED54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassTheStory.Api", "PassTheStory.Api\PassTheStory.Api.csproj", "{2A535613-0415-48C8-A763-EC7F0DADDC70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2978EC78-702C-4C29-BA5A-CC35534DED54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2978EC78-702C-4C29-BA5A-CC35534DED54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2978EC78-702C-4C29-BA5A-CC35534DED54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A535613-0415-48C8-A763-EC7F0DADDC70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A535613-0415-48C8-A763-EC7F0DADDC70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A535613-0415-48C8-A763-EC7F0DADDC70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A535613-0415-48C8-A763-EC7F0DADDC70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

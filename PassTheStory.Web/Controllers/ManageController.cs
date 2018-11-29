@@ -51,6 +51,12 @@ namespace PassTheStory.Web.Controllers
             }
         }
 
+        // Manage/AdminPanel
+        public ActionResult AdminPanel()
+        {
+            return View();
+        }
+
         //
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
@@ -385,6 +391,7 @@ namespace PassTheStory.Web.Controllers
             Error
         }
 
+        
 #endregion
     }
 }

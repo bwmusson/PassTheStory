@@ -14,10 +14,12 @@ namespace PassTheStory.Web.Controllers
         private readonly IStoryOrchestrator _storyOrchestrator;
         private readonly INextAuthorService _nextAuthorService;
 
-        public StoryController(IStoryOrchestrator storyOrchestrator)
+        public StoryController(IStoryOrchestrator storyOrchestrator, INextAuthorService nextAuthorService)
         {
             _storyOrchestrator = storyOrchestrator;
+            _nextAuthorService = nextAuthorService;
         }
+
         // GET: Story
         public ActionResult Index()
         {
@@ -104,8 +106,8 @@ namespace PassTheStory.Web.Controllers
                 StoryName = part.StoryName
             });
 
-            if (part.IsEnd = false){
-                var nextAuthor = await _nextAuthorService.GetNextAuthor(part.Author);
+            if (part.IsEnd == false){
+                var nextAuthor = _nextAuthorService.GetNextAuthor(part.Author);
                 await _storyOrchestrator.SetNextAuthor(part.StoryId, nextAuthor);
             }
             else

@@ -11,7 +11,7 @@ namespace PassTheStory.Shared.ViewModels
         [Key]
         public Guid StoryId { get; set; }
         public string StoryName { get; set; }
-        public virtual IList<StoryPart> Parts { get; set; }
+        public virtual IList<StoryPartViewModel> Parts { get; set; }
         public string NextAuthor { get; set; }
         public Boolean IsFinished { get; set; }
 

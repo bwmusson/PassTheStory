@@ -1,13 +1,37 @@
-﻿body {
-    padding-top: 50px;
+﻿html {
+    height: 100%;
+}
+body {
+    height: 100%;
     padding-bottom: 20px;
-    font-family: "Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
+    font-family: "Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif !important;
+}
+
+.nav-column {
+    padding: 2.5%;
+    font-size: 1.1em;
+}
+
+.nav-link {
+    color: white;
+    font-weight: bolder;
+}
+
+.full-height {
+    min-height: 100%;
+}
+
+.fullContent {
+    background: url("images/menu-background.jpg") no-repeat fixed left top;
+    background-size: 100% 100%;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    background: url("images/content-background.jpg") no-repeat;
+    background-size: cover;
+    padding: 3%;
+    min-height: 100%;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
