@@ -1,30 +1,39 @@
-﻿using PassTheStory.Web.Models;
+﻿using PassTheStory.Shared.Orchestrators.Interfaces;
+using PassTheStory.Web.Models;
 using PassTheStory.Web.Services.Interfaces;
 using System;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PassTheStory.Web.Services
 {
     public class NextAuthorService : INextAuthorService
     {
         private readonly ApplicationDbContext _applicationDbContext;
+        private readonly IStoryOrchestrator _storyOrchestrator;
         
-        public NextAuthorService(ApplicationDbContext applicationDbContext)
+        public NextAuthorService(ApplicationDbContext applicationDbContext, IStoryOrchestrator storyOrchestrator)
         {
             _applicationDbContext = applicationDbContext;
+            _storyOrchestrator = storyOrchestrator;
         }
 
-        public string GetNextAuthor(ApplicationUser lastAuthor)
+        public async Task<string> GetNextAuthor(ApplicationUser lastAuthor)
         {
             ApplicationUser nextAuthor = lastAuthor;
             while (nextAuthor.Equals(lastAuthor))
             {
-                nextAuthor = _applicationDbContext.Users
+                nextAuthor = await _applicationDbContext.Users
                     .OrderBy(c => Guid.NewGuid())
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
             }
 
             return nextAuthor.UserName;
+        }
+        public async Task<int> SetNextAuthor(Guid storyId, string nextAuthor)
+        {
+            return await _storyOrchestrator.SetNextAuthor(storyId, nextAuthor);
         }
     }
 }

@@ -1,10 +1,13 @@
-﻿using PassTheStory.Shared.Orchestrators.Interfaces;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using PassTheStory.Shared.Orchestrators.Interfaces;
 using PassTheStory.Shared.ViewModels;
 using PassTheStory.Web.Models;
 using PassTheStory.Web.Services.Interfaces;
 using System;
 using System.Data;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace PassTheStory.Web.Controllers
@@ -92,6 +95,25 @@ namespace PassTheStory.Web.Controllers
             }
             return View();
         }
+
+        public async Task<ActionResult> Pass(StoryModel story)
+        {
+            ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext()
+                .GetUserManager<ApplicationUserManager>()
+                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+            string nextAuthor = await _nextAuthorService.GetNextAuthor(user);
+
+            while (nextAuthor == user.UserName || 
+                (story.Parts.Count <= 2 && nextAuthor == story.Parts[0].Author.UserName))
+            {
+                nextAuthor = await _nextAuthorService.GetNextAuthor(user);
+            }
+
+            await _nextAuthorService.SetNextAuthor(story.StoryId, nextAuthor);
+
+            return View();
+        }
         public async Task<ActionResult> AddPart(StoryPartModel part)
         {
             //Only NextAuthor (if/then)
@@ -107,8 +129,8 @@ namespace PassTheStory.Web.Controllers
             });
 
             if (part.IsEnd == false){
-                var nextAuthor = _nextAuthorService.GetNextAuthor(part.Author);
-                await _storyOrchestrator.SetNextAuthor(part.StoryId, nextAuthor);
+                var nextAuthor = await _nextAuthorService.GetNextAuthor(part.Author);
+                await _nextAuthorService.SetNextAuthor(part.StoryId, nextAuthor);
             }
             else
             {
