@@ -1,0 +1,27 @@
+﻿@model PassTheStory.Web.Models.StoryDisplayModel
+
+@{
+    ViewBag.Title = "All Stories";
+}
+
+<h2>All Stories</h2>
+<table class="table">
+    <tr>
+        <th>Story Name</th>
+        <th>Parts</th>
+        <th>Next Author</th>
+        <th>Finished</th>
+    </tr>
+
+@foreach (var item in Model.Stories) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StoryName)
+            @Html.DisplayFor(modelItem => item.Parts.Count)
+            @Html.DisplayFor(modelItem => item.NextAuthor)
+            @Html.DisplayFor(modelItem => item.IsFinished)
+        </td>
+    </tr>
+}
+
+</table>

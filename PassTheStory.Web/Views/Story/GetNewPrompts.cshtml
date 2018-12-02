@@ -1,0 +1,24 @@
+﻿@model PassTheStory.Web.Models.StoryDisplayModel
+
+@{
+    ViewBag.Title = "New Prompts";
+}
+
+<h2>New Prompts</h2>
+
+<table class="table">
+    <tr>
+        <th>Story Name</th>
+        <th>Prompt</th>
+    </tr>
+
+@foreach (var item in Model.Stories) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StoryName)
+            @Html.DisplayFor(modelItem => item.Parts[0])
+        </td>
+    </tr>
+}
+
+</table>

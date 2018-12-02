@@ -65,8 +65,13 @@ namespace PassTheStory.Web.Controllers
             return View(story);
         }
 
+        public ActionResult CreatePrompt()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public async Task<ActionResult> CreatePrompt(StoryPartModel prompt)
+        public async Task<ActionResult> AddPrompt(StoryPartModel prompt)
         {
             if (ModelState.IsValid)
             {

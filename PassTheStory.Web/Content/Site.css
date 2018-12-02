@@ -26,6 +26,12 @@ body {
     background-size: 100% 100%;
 }
 
+.full-width {
+    min-width: 100%;
+}
+
+
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     background: url("images/content-background.jpg") no-repeat;
@@ -42,8 +48,7 @@ body {
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
+/*input,
+select {
     max-width: 280px;
-}
+}*/

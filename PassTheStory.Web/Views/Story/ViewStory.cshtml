@@ -1,0 +1,26 @@
+﻿@model PassTheStory.Shared.ViewModels.StoryViewModel
+
+@{
+    ViewBag.Title = "View Story";
+}
+
+<h2>
+    @Html.DisplayFor(model => model.StoryName)
+</h2>
+<div class="container">
+    @using PassTheStory.Shared.ViewModels;
+    @foreach (StoryPartViewModel p in Model.Parts)
+    {
+    <div class="row">
+        <div class="col-1">
+            @Html.Display(p.CreatedDateTime.ToString("g"))
+        </div>
+        <div class="col-1">
+            @Html.Display(p.Author);
+        </div>
+        <div class="col-10">
+            @Html.Display(p.PartText);
+        </div>
+    </div>
+    }
+</div>
