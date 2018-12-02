@@ -30,6 +30,10 @@ body {
     min-width: 100%;
 }
 
+.btn {
+    padding: 10px;
+}
+
 
 
 /* Set padding to keep content from hitting the edges */
@@ -48,7 +52,12 @@ body {
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-/*input,
+input,
 select {
     max-width: 280px;
-}*/
+}
+
+textarea {
+    max-width: 80%;
+    max-height: 30%;
+}

@@ -21,13 +21,15 @@ namespace PassTheStory.Web.Models
         public DateTime CreatedTime { get; set; }
         public int PartNumber { get; set; }
         [Required]
-        [MaxLength(5000)]
+        [MaxLength(1000)]
+        [Display(Name = "Part Text")]
         public string PartText { get; set; }
         public ApplicationUser Author { get; set; }
         [Required]
         public Boolean IsEnd { get; set; }
         public Guid StoryId { get; set; }
         [MaxLength(100)]
+        [Display(Name = "Story Name")]
         public string StoryName { get; set; }
     }
 
