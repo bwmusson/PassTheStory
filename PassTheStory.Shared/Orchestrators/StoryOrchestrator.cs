@@ -28,9 +28,14 @@ namespace PassTheStory.Shared.Orchestrators
                 CreatedDateTime = DateTime.Now,
                 PartText = part.PartText,
                 Author = part.Author,
-                IsEnd = part.IsEnd
+                IsEnd = part.IsEnd,
+                StoryId = part.StoryId,
+                StoryName = part.StoryName
             };
 
+            var story = _storyContext.Stories.Find(part.StoryId);
+            sp.Story = story;
+            story.Parts.Add(sp);
 
             _storyContext.StoryParts.Add(sp);
 
@@ -60,8 +65,8 @@ namespace PassTheStory.Shared.Orchestrators
 
             story.Parts.Add(part);
 
-            part.PartNumber = story.Parts.IndexOf(part);
-            //part.StoryName = story.StoryName;
+            part.PartNumber = story.Parts.Count;
+            part.StoryName = story.StoryName;
             part.Story = story;
 
             _storyContext.StoryParts.Add(part);
@@ -84,25 +89,28 @@ namespace PassTheStory.Shared.Orchestrators
 
             foreach (Story s in st)
             {
-                StoryViewModel svm = new StoryViewModel();
-                svm.StoryId = s.StoryId;
-                svm.StoryName = s.StoryName;
-                svm.NextAuthor = s.NextAuthor;
-                svm.IsFinished = s.IsFinished;
+                StoryViewModel svm = new StoryViewModel{ 
+                    StoryId = s.StoryId,
+                    StoryName = s.StoryName,
+                    NextAuthor = s.NextAuthor,
+                    IsFinished = s.IsFinished,
+                    Parts = new List<StoryPartViewModel>()
+                };
+                
 
                 foreach (StoryPart sp in s.Parts)
                 {
-                    StoryPartViewModel spvm = new StoryPartViewModel();
-                    
-                    spvm.PartId = sp.PartId;
-                    spvm.CreatedDateTime = sp.CreatedDateTime;
-                    spvm.PartNumber = sp.PartNumber;
-                    spvm.PartText = sp.PartText;
-                    spvm.Author = sp.Author;
-                    spvm.IsEnd = sp.IsEnd;
-                    spvm.StoryId = sp.StoryId;
-                    spvm.StoryName = sp.StoryName;
-                    spvm.Story = svm;
+                    StoryPartViewModel spvm = new StoryPartViewModel{
+                        PartId = sp.PartId,
+                        CreatedDateTime = sp.CreatedDateTime,
+                        PartNumber = sp.PartNumber,
+                        PartText = sp.PartText,
+                        Author = sp.Author,
+                        IsEnd = sp.IsEnd,
+                        StoryId = sp.StoryId,
+                        StoryName = sp.StoryName,
+                        Story = svm
+                    };
                     
                     svm.Parts.Add(spvm);
                 }
@@ -122,25 +130,27 @@ namespace PassTheStory.Shared.Orchestrators
 
             foreach (Story s in st)
             {
-                StoryViewModel svm = new StoryViewModel();
-                svm.StoryId = s.StoryId;
-                svm.StoryName = s.StoryName;
-                svm.NextAuthor = s.NextAuthor;
-                svm.IsFinished = s.IsFinished;
+                StoryViewModel svm = new StoryViewModel{ 
+                    StoryId = s.StoryId,
+                    StoryName = s.StoryName,
+                    NextAuthor = s.NextAuthor,
+                    IsFinished = s.IsFinished,
+                    Parts = new List<StoryPartViewModel>()
+                };
 
                 foreach (StoryPart sp in s.Parts)
                 {
-                    StoryPartViewModel spvm = new StoryPartViewModel();
-                    
-                    spvm.PartId = sp.PartId;
-                    spvm.CreatedDateTime = sp.CreatedDateTime;
-                    spvm.PartNumber = sp.PartNumber;
-                    spvm.PartText = sp.PartText;
-                    spvm.Author = sp.Author;
-                    spvm.IsEnd = sp.IsEnd;
-                    spvm.StoryId = sp.StoryId;
-                    spvm.StoryName = sp.StoryName;
-                    spvm.Story = svm;
+                    StoryPartViewModel spvm = new StoryPartViewModel{
+                        PartId = sp.PartId,
+                        CreatedDateTime = sp.CreatedDateTime,
+                        PartNumber = sp.PartNumber,
+                        PartText = sp.PartText,
+                        Author = sp.Author,
+                        IsEnd = sp.IsEnd,
+                        StoryId = sp.StoryId,
+                        StoryName = sp.StoryName,
+                        Story = svm
+                    };
                     
                     svm.Parts.Add(spvm);
                 }
@@ -161,25 +171,27 @@ namespace PassTheStory.Shared.Orchestrators
 
             foreach (Story s in st)
             {
-                StoryViewModel svm = new StoryViewModel();
-                svm.StoryId = s.StoryId;
-                svm.StoryName = s.StoryName;
-                svm.NextAuthor = s.NextAuthor;
-                svm.IsFinished = s.IsFinished;
+                StoryViewModel svm = new StoryViewModel{ 
+                    StoryId = s.StoryId,
+                    StoryName = s.StoryName,
+                    NextAuthor = s.NextAuthor,
+                    IsFinished = s.IsFinished,
+                    Parts = new List<StoryPartViewModel>()
+                };
 
                 foreach (StoryPart sp in s.Parts)
                 {
-                    StoryPartViewModel spvm = new StoryPartViewModel();
-                    
-                    spvm.PartId = sp.PartId;
-                    spvm.CreatedDateTime = sp.CreatedDateTime;
-                    spvm.PartNumber = sp.PartNumber;
-                    spvm.PartText = sp.PartText;
-                    spvm.Author = sp.Author;
-                    spvm.IsEnd = sp.IsEnd;
-                    spvm.StoryId = sp.StoryId;
-                    spvm.StoryName = sp.StoryName;
-                    spvm.Story = svm;
+                    StoryPartViewModel spvm = new StoryPartViewModel{
+                        PartId = sp.PartId,
+                        CreatedDateTime = sp.CreatedDateTime,
+                        PartNumber = sp.PartNumber,
+                        PartText = sp.PartText,
+                        Author = sp.Author,
+                        IsEnd = sp.IsEnd,
+                        StoryId = sp.StoryId,
+                        StoryName = sp.StoryName,
+                        Story = svm
+                    };
                     
                     svm.Parts.Add(spvm);
                 }
@@ -200,26 +212,27 @@ namespace PassTheStory.Shared.Orchestrators
                 return new StoryViewModel();
             }
 
-            StoryViewModel storyView = new StoryViewModel();
-
-            storyView.StoryId = story.StoryId;
-            storyView.StoryName = story.StoryName;
-            storyView.NextAuthor = story.NextAuthor;
-            storyView.IsFinished = story.IsFinished;
+            StoryViewModel storyView = new StoryViewModel{ 
+                    StoryId = story.StoryId,
+                    StoryName = story.StoryName,
+                    NextAuthor = story.NextAuthor,
+                    IsFinished = story.IsFinished,
+                    Parts = new List<StoryPartViewModel>()
+                };
             
             foreach (StoryPart sp in story.Parts)
                 {
-                    StoryPartViewModel spvm = new StoryPartViewModel();
-                    
-                    spvm.PartId = sp.PartId;
-                    spvm.CreatedDateTime = sp.CreatedDateTime;
-                    spvm.PartNumber = sp.PartNumber;
-                    spvm.PartText = sp.PartText;
-                    spvm.Author = sp.Author;
-                    spvm.IsEnd = sp.IsEnd;
-                    spvm.StoryId = sp.StoryId;
-                    spvm.StoryName = sp.StoryName;
-                    spvm.Story = storyView;
+                    StoryPartViewModel spvm = new StoryPartViewModel{
+                        PartId = sp.PartId,
+                        CreatedDateTime = sp.CreatedDateTime,
+                        PartNumber = sp.PartNumber,
+                        PartText = sp.PartText,
+                        Author = sp.Author,
+                        IsEnd = sp.IsEnd,
+                        StoryId = sp.StoryId,
+                        StoryName = sp.StoryName,
+                        Story = storyView
+                    };
                     
                     storyView.Parts.Add(spvm);
                 }
@@ -236,12 +249,18 @@ namespace PassTheStory.Shared.Orchestrators
                 .OrderBy(c => Guid.NewGuid())
                 .FirstOrDefaultAsync();
 
-            StoryViewModel storyView = new StoryViewModel();
+            if (story == null)
+            {
+                return new StoryViewModel();
+            }
 
-            storyView.StoryId = story.StoryId;
-            storyView.StoryName = story.StoryName;
-            storyView.NextAuthor = story.Story.NextAuthor;
-            storyView.IsFinished = story.Story.IsFinished;
+            StoryViewModel storyView = new StoryViewModel{ 
+                    StoryId = story.StoryId,
+                    StoryName = story.StoryName,
+                    NextAuthor = story.Story.NextAuthor,
+                    IsFinished = story.Story.IsFinished,
+                    Parts = new List<StoryPartViewModel>()
+                };
             
             foreach (StoryPart sp in story.Story.Parts)
                 {
@@ -259,7 +278,7 @@ namespace PassTheStory.Shared.Orchestrators
                     
                     storyView.Parts.Add(spvm);
                 }
-
+            
             return storyView;
         }
 

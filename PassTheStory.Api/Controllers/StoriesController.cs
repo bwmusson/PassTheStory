@@ -3,9 +3,11 @@ using PassTheStory.Shared.Orchestrators;
 using PassTheStory.Shared.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace PassTheStory.Api.Controllers
 {
@@ -19,6 +21,8 @@ namespace PassTheStory.Api.Controllers
         }
 
         // GET: api/Stories
+        [Route("api/Stories")]
+        [HttpGet]
         public async Task<IList<Story>> GetAllFinishedStories()
         {
             IList<StoryViewModel> finished = await _storyOrchestrator.GetFinishedStories();
@@ -29,7 +33,7 @@ namespace PassTheStory.Api.Controllers
             {
                 string text = "";
 
-                foreach (StoryPartViewModel p in s.Parts)
+                foreach (StoryPartViewModel p in s.Parts.OrderBy(sp => sp.CreatedDateTime))
                 {
                     text += p.PartText + "\n\n - Contributed by user " + p.Author + " on " + p.CreatedDateTime.ToShortDateString() + ".\n\n";
                 };
@@ -40,7 +44,7 @@ namespace PassTheStory.Api.Controllers
                     StoryName = s.StoryName,
                     Text = text
                 };
-                
+
                 stories.Add(story);
             };
 
@@ -48,6 +52,9 @@ namespace PassTheStory.Api.Controllers
         }
 
         // GET: api/Stories/5
+        [Route("api/Stories/{keyword}")]
+        [HttpGet]
+        [ResponseType(typeof(Story))]
         public async Task<IHttpActionResult> GetFinishedTopicStory(string keyword)
         {
             keyword = keyword.Trim();
@@ -62,22 +69,22 @@ namespace PassTheStory.Api.Controllers
             else
             {
 
-            string text = "";
-            
-            foreach (StoryPartViewModel p in random.Parts)
-            {
-                text += p.PartText + "\n\n - Contributed by user " + p.Author + " on " + p.CreatedDateTime.ToShortDateString() + ".\n\n";
-            };
+                string text = "";
 
-            text += "THE END";
+                foreach (StoryPartViewModel p in random.Parts.OrderBy(sp => sp.CreatedDateTime))
+                {
+                    text += p.PartText + "\n\n - Contributed by user " + p.Author + " on " + p.CreatedDateTime.ToShortDateString() + ".\n\n";
+                };
 
-            Story story = new Story
-            {
-                StoryName = random.StoryName,
-                Text = text
-            };
+                text += "THE END";
 
-            return Ok(story);
+                Story story = new Story
+                {
+                    StoryName = random.StoryName,
+                    Text = text
+                };
+
+                return Ok(story);
 
             }
         }

@@ -15,8 +15,10 @@
 @foreach (var item in Model.Stories) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.StoryName)
-            @Html.DisplayFor(modelItem => item.Parts[0])
+            @Html.ActionLink(item.StoryName, "ViewStory", "Story", new { id = item.StoryId }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Parts[0].PartText)
         </td>
     </tr>
 }

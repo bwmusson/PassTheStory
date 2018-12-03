@@ -6,7 +6,7 @@
 
 <h2>Finished Stories</h2>
 
-<table class="table">
+<table class="table-borderless">
     <tr>
         <th>Story Name</th>
         <th>Parts</th>
@@ -15,7 +15,9 @@
 @foreach (var item in Model.Stories) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.StoryName)
+            @Html.ActionLink(item.StoryName, "ViewStory", "Story", new { id = item.StoryId }, null)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Parts.Count)
         </td>
     </tr>

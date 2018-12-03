@@ -35,6 +35,6 @@ namespace PassTheStory.Web.Models
 
     public class StoryDisplayModel
     {
-        public List<StoryViewModel> Stories { get; set; }
+        public IList<StoryViewModel> Stories { get; set; }
     }
 }

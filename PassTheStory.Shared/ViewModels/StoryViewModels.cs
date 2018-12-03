@@ -1,8 +1,5 @@
-﻿using PassTheStory.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PassTheStory.Shared.ViewModels
 {
@@ -10,7 +7,7 @@ namespace PassTheStory.Shared.ViewModels
     {
         public Guid StoryId { get; set; }
         public string StoryName { get; set; }
-        public virtual IList<StoryPartViewModel> Parts { get; set; }
+        public virtual List<StoryPartViewModel> Parts { get; set; }
         public string NextAuthor { get; set; }
         public Boolean IsFinished { get; set; }
 

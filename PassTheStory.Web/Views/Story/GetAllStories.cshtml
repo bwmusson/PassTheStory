@@ -13,19 +13,19 @@
         <th>Next Author</th>
         <th>Finished</th>
     </tr>
-    @foreach (var item in Model.Stories)
+    @foreach (var item in Model.Stories.OrderByDescending(s => s.Parts.Count))
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.StoryName)
+                @Html.ActionLink(item.StoryName, "ViewStory", "Story", new { id = item.StoryId }, null)
             </td>
-            <td>
+            <td> 
                 @Html.DisplayFor(modelItem => item.Parts.Count)
             <td>
                 @if (item.IsFinished == true)
                 {
 
-                    @Html.DisplayFor(modelItem => item.NextAuthor, "N/A")
+                    <span>N/A</span>
 
                 }
                 @if (item.IsFinished == false)
@@ -34,7 +34,10 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsFinished)
+                @if (item.IsFinished == true)
+                {
+                    <img src="~/Content/images/check-mark-2025986.svg" height="12" alt="checkmark"/>
+                }
             </td>
         </tr>
     }

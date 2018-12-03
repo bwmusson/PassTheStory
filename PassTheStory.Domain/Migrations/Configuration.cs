@@ -2,7 +2,9 @@ namespace PassTheStory.Domain.Migrations
 {
     using PassTheStory.Domain.Entities;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity.Migrations;
+    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<StoryContext>
     {
@@ -14,13 +16,14 @@ namespace PassTheStory.Domain.Migrations
         protected override void Seed(StoryContext context)
         {
             context.Stories.AddOrUpdate(x => x.StoryId,
-                new Story { StoryId = new Guid("6709351d-fe86-45de-b9c8-755f1224ca91"), StoryName = "The True Meaning of Christmas", IsFinished = true, NextAuthor = null },
+                new Story { StoryId = new Guid("6709351d-fe86-45de-b9c8-755f1224ca91"), StoryName = "The True Meaning of Christmas", IsFinished = true, NextAuthor = "WineDarkSailor" },
                 new Story { StoryId = new Guid("b6484081-d785-4a54-80f3-2a37f02443af"), StoryName = "Silence is Golden", IsFinished = false, NextAuthor = "TheSonAlsoWrites" },
                 new Story { StoryId = new Guid("c6910b8e-8a22-4a81-9fa3-6b3c152719a1"), StoryName = "The Redemption of Adolf Hitler", IsFinished = false, NextAuthor = "MobyRichard" },
+                new Story { StoryId = new Guid("9350c0c1-9291-4a58-8f34-e6ff16fd4b16"), StoryName = "A New Dawn for Magick", IsFinished = false, NextAuthor = "TheSonAlsoWrites"},
                 new Story { StoryId = new Guid("b8cfa03c-ce0a-46dd-9b19-fdff4f0b2159"), StoryName = "A Voice from the Past", IsFinished = false, NextAuthor = "TheScarletWriter" },
-                new Story { StoryId = new Guid("43f854d8-11c2-4a44-b78b-b71163f8fa45"), StoryName = "King of the Bees", IsFinished = true, NextAuthor = null },
+                new Story { StoryId = new Guid("43f854d8-11c2-4a44-b78b-b71163f8fa45"), StoryName = "King of the Bees", IsFinished = true, NextAuthor = "TheScarletWriter" },
                 new Story { StoryId = new Guid("6a6ce39c-bd3e-4508-b6f2-ff459d0d80ac"), StoryName = "The Devil You Know", IsFinished = false, NextAuthor = "WineDarkSailor" },
-                new Story { StoryId = new Guid("39a0236b-8ad7-4242-baf4-671209f0a23d"), StoryName = "The Path Not Taken", IsFinished = true, NextAuthor = null },
+                new Story { StoryId = new Guid("39a0236b-8ad7-4242-baf4-671209f0a23d"), StoryName = "The Path Not Taken", IsFinished = true, NextAuthor = "PrideAndUnprejudiced" },
                 new Story { StoryId = new Guid("e46aaa5c-6fdf-4d6f-bd74-e6ec24b2ed3a"), StoryName = "The Gospel According to Chad", IsFinished = false, NextAuthor = "TheSonAlsoWrites" },
                 new Story { StoryId = new Guid("4d5eb60b-ef05-4785-95cf-c99b12550a77"), StoryName = "The Long Goodbye", IsFinished = false, NextAuthor = "TheGreaterGatsby" },
                 new Story { StoryId = new Guid("d2ceb713-a3ba-403d-b5ed-b1b3d089e3b6"), StoryName = "The Experiment", IsFinished = false, NextAuthor = "PrideAndUnprejudiced" });
@@ -89,16 +92,16 @@ namespace PassTheStory.Domain.Migrations
 
                 new StoryPart{ PartId = new Guid("abd179d6-52b5-4498-9821-f126753471bb"), CreatedDateTime = DateTime.Parse("11/26/2018 9:40 AM"), PartNumber = 1, 
                     PartText = "Humans once wielded formidable magical power but with over 7 billion of us on the planet now Mana has spread far to thinly to have any effect. When hostile aliens reduces humanity to a mere fraction the survivors discover an old power has begun to reawaken once again.", 
-                    Author = "MobyRichard", IsEnd = false, StoryId = new Guid("b8cfa03c-ce0a-46dd-9b19-fdff4f0b2159")},
+                    Author = "MobyRichard", IsEnd = false, StoryId = new Guid("9350c0c1-9291-4a58-8f34-e6ff16fd4b16")},
                 new StoryPart{ PartId = new Guid("7a8b501c-7bb9-44df-957b-4a54b9b8f219"), CreatedDateTime = DateTime.Parse("11/28/2018 1:20 PM"), PartNumber = 2, 
                     PartText = "I wouldn’t call it a war. Extermination maybe. Though I’d more aptly describe it as a harvest. By the time they reached our world and penetrated the stratosphere, people sought them out in droves to be harvested. Of course, they knew what that actually meant. Otherwise, they wouldn’t have been so eager.\n\n" +
                     "Ten years before the Angels descended from the sky, they had already sent what some referred to as divine retribution: a virus. Though this virus in particular only targeted women. It spread faster than a wildfire and had a 100% mortality rate. Worse yet, it was completely undetectable. In our desperation, we became animals. We locked our wives, daughters, and mothers deep underground under the constant shine of UV radiation and still they got infected. Within five years, the last woman had died leaving the rest of humanity to slowly die with her.", 
-                    Author = "TheGreaterGatsby", IsEnd = false, StoryId = new Guid("b8cfa03c-ce0a-46dd-9b19-fdff4f0b2159")},
+                    Author = "TheGreaterGatsby", IsEnd = false, StoryId = new Guid("9350c0c1-9291-4a58-8f34-e6ff16fd4b16")},
                 new StoryPart{ PartId = new Guid("9801301c-192f-4268-a365-38df94ded618"), CreatedDateTime = DateTime.Parse("11/29/2018 4:16 PM"), PartNumber = 3, 
                     PartText = "By the time they arrived, we welcomed them with open arms into every one of our major cities. Most bowed their heads and practically begged to be killed. Some fought against them. These were the ones that still remembered the pain of watching their daughters, wives, and mothers die. They couldn’t hope to survive, but at least they could enact their own version of divine retribution.\n\n" +
                     "Looking back at it now, I know that the Angels planned for them. They wanted us to retaliate. Otherwise, where would be the fun? Men charged at them by the millions. Some to die. Some to kill. To the Angels, it was all the same.\n\n" +
                     "Until we killed the first one.", 
-                    Author = "PrideAndUnprejudiced", IsEnd = false, StoryId = new Guid("b8cfa03c-ce0a-46dd-9b19-fdff4f0b2159")},
+                    Author = "PrideAndUnprejudiced", IsEnd = false, StoryId = new Guid("9350c0c1-9291-4a58-8f34-e6ff16fd4b16")},
 
                 new StoryPart{ PartId = new Guid("82e8a1a6-b78d-4694-92f2-105d1785ba84"), CreatedDateTime = DateTime.Parse("11/18/2018 6:38 AM"), PartNumber = 1, 
                     PartText = "Whenever you speak, people hear you speaking in their native language. Most people are surprised and delighted. The cashier at McDonalds you've just talked to is horrified. \"Nobody's spoken that language in thousands of years.\"", 
@@ -158,7 +161,7 @@ namespace PassTheStory.Domain.Migrations
                     PartText = "At the age of twelve you started randomly seeing a green line and a red line appear on the ground. You always followed the green line and have lived a successful and happy life. Ten years later you are on top of the world, but bored. Time to see where the red line leads.", 
                     Author = "TheScarletWriter", IsEnd = false, StoryId = new Guid("39a0236b-8ad7-4242-baf4-671209f0a23d")},
                 new StoryPart{ PartId = new Guid("292ff796-4c12-41ac-8ee1-ffc7f5533c2e"), CreatedDateTime = DateTime.Parse("12/01/2018 4:56 PM"), PartNumber = 2, 
-                    PartText = "Everyone has seen \"The Wizard of Oz\", right? As the Munchkins said, \"follow the yellow brick road!\", so I lived my life. Though the road I followed was neither yellow, brick, nor visible to anyone but myself. I saw the lines for the first time at the age of twelve. They appeared, almost at random, as I was walking on the way home from school. One green line, leading off into one direction, and a red line going off into another. The red line was an indescribably harsh, violent shade of red, while the green line was soft and inviting like a crisp field of grass. Naturally, I followed the green line./n/n" +
+                    PartText = "Everyone has seen \"The Wizard of Oz\", right? As the Munchkins said, \"follow the yellow brick road!\", so I lived my life. Though the road I followed was neither yellow, brick, nor visible to anyone but myself. I saw the lines for the first time at the age of twelve. They appeared, almost at random, as I was walking on the way home from school. One green line, leading off into one direction, and a red line going off into another. The red line was an indescribably harsh, violent shade of red, while the green line was soft and inviting like a crisp field of grass. Naturally, I followed the green line.\n\n" +
                     "At first, the green's rewards were small blessings. The first thing the line led me to was a dollar bill lying on the ground. After that, numerous mundane conveniences that I can't much recall.", 
                     Author = "WineDarkSailor", IsEnd = false, StoryId = new Guid("39a0236b-8ad7-4242-baf4-671209f0a23d")},
                 new StoryPart{ PartId = new Guid("387d2054-09e3-47d7-82ac-0f7bce38ccb1"), CreatedDateTime = DateTime.Parse("12/02/2018 10:20 AM"), PartNumber = 3, 
@@ -184,8 +187,8 @@ namespace PassTheStory.Domain.Migrations
                     PartText = "Jesus actually had 14 disciples but their behavior was deemed inappropriate by biblical scholars, so they were removed from the final versions of the Gospels. They are Brad and Chad, the Bro-ciples, and these are their stories.", 
                     Author = "WineDarkSailor", IsEnd = false, StoryId = new Guid("e46aaa5c-6fdf-4d6f-bd74-e6ec24b2ed3a")},
                 new StoryPart{ PartId = new Guid("6d872933-f510-4759-8a2c-ff9c0a1ed694"), CreatedDateTime = DateTime.Parse("11/12/2018 1:14 PM"), PartNumber = 2, 
-                    PartText = "Rad 2:1/n/n" +
-                    "On the fifth week day a bachelor party took place at Cana in Galilee. Jesus had been invited, along with a plus one. So Jesus brought his apostle Chad as his plus one, and Brad as Chad's plus one's plus one./n/n" +
+                    PartText = "Rad 2:1\n\n" +
+                    "On the fifth week day a bachelor party took place at Cana in Galilee. Jesus had been invited, along with a plus one. So Jesus brought his apostle Chad as his plus one, and Brad as Chad's plus one's plus one.\n\n" +
                     "Chad scoped out the joint before turning to Jesus and saying to him, \"JC, my man. There is nowhere near enough wine here for all of these people to get plastered.\"\n\n" +
                     "\"So be it,\" Jesus replied. \"Bring me the barrels of wine.\"\n\n" +
                     "Brad and Chad began to lift the barrels before turning to Jesus once more. \"JC, could you just come over here? It would be a lot easier. These are heavier than a man-eating whale!\"\n\n" +
@@ -228,6 +231,30 @@ namespace PassTheStory.Domain.Migrations
                 new StoryPart{ PartId = new Guid("1f3579f9-446b-4c6a-b8f9-c04e1dc02786"), CreatedDateTime = DateTime.Parse("11/30/2018 6:52 PM"), PartNumber = 1, 
                     PartText = "The Sol system was an experiment by aliens to determine if life would evolve under hyper hostile physics. Unfortunately, it was forgotten about. Years later, humans are leaving the solar system, only to discover that upon passing an invisible barrier, they essentially gain superpowers.", 
                     Author = "WineDarkSailor", IsEnd = false, StoryId = new Guid("d2ceb713-a3ba-403d-b5ed-b1b3d089e3b6")});
+
+            context.SaveChanges();
+
+            IList<Story> stories = context.Stories.ToList();
+            IList<StoryPart> storyParts = context.StoryParts.ToList();
+
+            foreach (Story s in stories)
+            {
+                foreach (StoryPart sp in storyParts)
+                {
+                    if (sp.StoryId == s.StoryId && sp.StoryName == null)
+                    {   
+                        sp.StoryName = s.StoryName;
+                        sp.Story = s;
+                        var index = sp.PartNumber - 1;
+                        s.Parts[index] = sp;
+                    }
+                    context.StoryParts.AddOrUpdate(sp);
+                }
+                context.Stories.AddOrUpdate(s);
+            }
+
+            context.SaveChanges();
+
         }
     }
 }
