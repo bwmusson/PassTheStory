@@ -23,12 +23,24 @@
             </div>
         </div>
     }
-    @using Microsoft.AspNet.Identity;
-    @using Microsoft.AspNet.Identity.Owin;
-    @if (Model.NextAuthor == System.Web.HttpContext.Current.GetOwinContext()
-        .GetUserManager<ApplicationUserManager>()
-        .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).UserName)
-    {
-        @RenderPage("AddPartPartial.cshtml")
-    }
-</div>
+        <div class="row">
+            <div class="text-center">
+                @if (Model.IsFinished == true)
+                {
+                    <h3>THE END</h3>
+                }
+                @if (Model.IsFinished == false)
+                {
+                    <h3>TO BE CONTINUED...</h3>
+                }
+            </div>
+        </div>
+        @using Microsoft.AspNet.Identity;
+        @using Microsoft.AspNet.Identity.Owin;
+        @if (Model.NextAuthor == System.Web.HttpContext.Current.GetOwinContext()
+            .GetUserManager<ApplicationUserManager>()
+            .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).UserName)
+        {
+            @RenderPage("AddPartPartial.cshtml")
+        }
+    </div>
