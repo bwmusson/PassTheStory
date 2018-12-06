@@ -20,8 +20,9 @@ namespace PassTheStory.Web.Models
         public Guid PartId { get; set; }
         public DateTime CreatedTime { get; set; }
         public int PartNumber { get; set; }
-        [Required]
+        [Required(ErrorMessage = "The Part Text must be at least 100 characters, and no more than 1000 characters.")]
         [MaxLength(1000)]
+        [MinLength(100)]
         [Display(Name = "Part Text")]
         public string PartText { get; set; }
         public ApplicationUser Author { get; set; }

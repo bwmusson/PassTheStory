@@ -40,26 +40,26 @@ namespace PassTheStory.Web.Controllers
 
         public async Task<ActionResult> MyContributions()
         {
-            string user = System.Web.HttpContext.Current.GetOwinContext()
+            var user = System.Web.HttpContext.Current.GetOwinContext()
                 .GetUserManager<ApplicationUserManager>()
-                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).UserName;
+                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
 
             var storyDisplayModel = new StoryDisplayModel()
             {
-                Stories = await _storyOrchestrator.GetMyContributions(user)
+                Stories = await _storyOrchestrator.GetMyContributions(user.UserName)
             };
             return View(storyDisplayModel);
         }
 
         public async Task<ActionResult> MyNextStories()
         {
-            string user = System.Web.HttpContext.Current.GetOwinContext()
+            var user = System.Web.HttpContext.Current.GetOwinContext()
                 .GetUserManager<ApplicationUserManager>()
-                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).UserName;
+                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
 
             var storyDisplayModel = new StoryDisplayModel()
             {
-                Stories = await _storyOrchestrator.GetMyNextStories(user)
+                Stories = await _storyOrchestrator.GetMyNextStories(user.UserName)
             };
             return View(storyDisplayModel);
         }
@@ -88,6 +88,7 @@ namespace PassTheStory.Web.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Message = story.StoryId;
             return View(story);
         }
 
@@ -99,24 +100,33 @@ namespace PassTheStory.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> CreatePrompt(StoryPartModel prompt)
         {
+            var user = System.Web.HttpContext.Current.GetOwinContext()
+                            .GetUserManager<ApplicationUserManager>()
+                            .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _storyOrchestrator.CreatePrompt(new StoryPartViewModel
+                    var part = new StoryPartViewModel
                     {
                         PartId = Guid.NewGuid(),
                         CreatedDateTime = DateTime.Now,
                         PartText = prompt.PartText,
-                        Author = prompt.Author.UserName,
-                        IsEnd = prompt.IsEnd,
+                        Author = user.UserName,
+                        IsEnd = false,
                         StoryId = Guid.NewGuid(),
                         StoryName = prompt.StoryName
-                    });
+                    };
+
+                    await _storyOrchestrator.CreatePrompt(part);
+                    
+                    var nextAuthor = await _nextAuthorService.GetNextAuthor(user);
+                    await _nextAuthorService.SetNextAuthor(part.StoryId, nextAuthor);
 
                     System.Web.HttpContext.Current.Response.Write("<script>alert('Prompt created successfully!')</script>");
                     ModelState.Clear();
-                    return View();
+                    return View("CreatePrompt");
                 }
                 catch (DataException dex)
                 {
@@ -124,12 +134,12 @@ namespace PassTheStory.Web.Controllers
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
                 }
             }
-            return View("GetNewPrompts");
+            return View("CreatePrompt");
         }
 
         public async Task<ActionResult> Pass(StoryModel story)
         {
-            ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext()
+            var user = System.Web.HttpContext.Current.GetOwinContext()
                 .GetUserManager<ApplicationUserManager>()
                 .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
 
@@ -145,30 +155,54 @@ namespace PassTheStory.Web.Controllers
 
             return View();
         }
+        public ActionResult AddPart(Guid story)
+        {
+            return View();
+        }
+
+        [HttpPost]
         public async Task<ActionResult> AddPart(StoryPartModel part)
         {
-            //Only NextAuthor (if/then)
-            await _storyOrchestrator.AddPart(new StoryPartViewModel
-            {
-                PartId = Guid.NewGuid(),
-                CreatedDateTime = DateTime.Now,
-                PartText = part.PartText,
-                Author = part.Author.UserName,
-                IsEnd = part.IsEnd,
-                StoryId = part.StoryId,
-                StoryName = part.StoryName
-            });
+            var user = System.Web.HttpContext.Current.GetOwinContext()
+                            .GetUserManager<ApplicationUserManager>()
+                            .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
 
-            if (part.IsEnd == false){
-                var nextAuthor = await _nextAuthorService.GetNextAuthor(part.Author);
-                await _nextAuthorService.SetNextAuthor(part.StoryId, nextAuthor);
-            }
-            else
+            if (ModelState.IsValid)
             {
-                await _storyOrchestrator.FinishStory(part.StoryId);
-            }
+                try
+                {
+                    var sp = new StoryPartViewModel
+                    {
+                        PartId = Guid.NewGuid(),
+                        CreatedDateTime = DateTime.Now,
+                        PartText = part.PartText,
+                        Author = user.UserName,
+                        IsEnd = part.IsEnd,
+                        StoryId = ViewBag.Id
+                    };
 
-            return View();
+
+                    await _storyOrchestrator.AddPart(sp);
+
+                    if (part.IsEnd == false)
+                    {
+                        var nextAuthor = await _nextAuthorService.GetNextAuthor(user);
+                        await _nextAuthorService.SetNextAuthor(part.StoryId, nextAuthor);
+                    }
+                    else
+                    {
+                        await _storyOrchestrator.FinishStory(part.StoryId);
+                    }
+                    return View("Index");
+                
+                }
+                catch (DataException dex)
+                {
+                Console.WriteLine(dex);
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+            }
+            return View("AddPart");
         }
     }
 }

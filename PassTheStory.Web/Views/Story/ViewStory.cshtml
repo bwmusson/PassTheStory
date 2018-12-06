@@ -1,4 +1,6 @@
 ﻿@using PassTheStory.Shared.ViewModels
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.Owin;
 @model PassTheStory.Shared.ViewModels.StoryViewModel
 @{
     ViewBag.Title = "View Story";
@@ -28,7 +30,7 @@
                 </p>
             </div>
         </div>
-    }
+        }
     <br />
     <div class="row">
         <div class="col-8 text-center">
@@ -38,18 +40,20 @@
             }
             @if (Model.IsFinished == false)
             {
-                <h3> TO BE CONTINUED...</h3>
+                if (Model.NextAuthor == System.Web.HttpContext.Current.GetOwinContext()
+                    .GetUserManager<ApplicationUserManager>()
+                    .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).UserName)
+                {
+                    <h3> TO BE CONTINUED...<a href="@Url.Action("AddPart", "Story", new { story = Request.Url.PathAndQuery.ToString().Substring(Request.Url.PathAndQuery.ToString().LastIndexOf("/") + 1)})"> BY YOU!</a></h3>
+                }
+                if (Model.NextAuthor != System.Web.HttpContext.Current.GetOwinContext()
+                    .GetUserManager<ApplicationUserManager>()
+                    .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).UserName)
+                {
+                    <h3> TO BE CONTINUED...</h3>
+                }
             }
         </div>
     </div>
 </div>
-
-@using Microsoft.AspNet.Identity;
-@using Microsoft.AspNet.Identity.Owin;
-@*@if (Model.NextAuthor == System.Web.HttpContext.Current.GetOwinContext()
-        .GetUserManager<ApplicationUserManager>()
-        .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).UserName)
-    {
-        @RenderPage("AddPartPartial.cshtml")
-    }*@
 

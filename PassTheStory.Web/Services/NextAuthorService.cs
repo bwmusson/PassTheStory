@@ -22,7 +22,7 @@ namespace PassTheStory.Web.Services
         public async Task<string> GetNextAuthor(ApplicationUser lastAuthor)
         {
             ApplicationUser nextAuthor = lastAuthor;
-            while (nextAuthor.Equals(lastAuthor))
+            while (nextAuthor == lastAuthor)
             {
                 nextAuthor = await _applicationDbContext.Users
                     .OrderBy(c => Guid.NewGuid())

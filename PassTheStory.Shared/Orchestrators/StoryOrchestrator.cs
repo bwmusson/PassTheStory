@@ -47,7 +47,8 @@ namespace PassTheStory.Shared.Orchestrators
             var story = new Story
             {
                 StoryId = prompt.StoryId,
-                StoryName = prompt.StoryName
+                StoryName = prompt.StoryName,
+                Parts = new List<StoryPart>()
             };
             var part = new StoryPart
             {

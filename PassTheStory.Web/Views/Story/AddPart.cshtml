@@ -1,12 +1,17 @@
 ﻿@model PassTheStory.Web.Models.StoryPartModel
 
+@{
+    ViewBag.Title = "Add Part";
+}
 
-@using (Html.BeginForm()) 
+<h2>Add Part</h2>
+
+
+@using (Html.BeginForm())
 {
-    
 <div class="form-horizontal full-width">
-
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 
     <div class="form-group full-width">
         @Html.LabelFor(model => model.PartText, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -18,16 +23,25 @@
             @Html.ValidationMessageFor(model => model.PartText, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+
+    <div class="form-group full-width">
         @Html.LabelFor(model => model.IsEnd, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.CheckBoxFor(model => model.IsEnd, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.IsEnd, "", new { @class = "text-danger" })
+        <div class="col-md-10 full-width">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.IsEnd)
+                @Html.ValidationMessageFor(model => model.IsEnd, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
-    <div class="form-group">
+    @Html.HiddenFor(model => model.StoryId)
+    @{
+        var Id = new Guid(Request.Url.Query.ToString().Substring(Request.Url.Query.ToString().IndexOf("=") + 1));
+    }
+
+
+    <div class="form-group full-width">
         <div class="col-md-offset-2 col-md-10">
-            <input type="button" value="Add Part" onclick="location.href='@Url.Action("AddPart", "Story")'" class="btn btn-primary btn-default" />
+            <input type="submit" value="Add Part" class="btn btn-primary btn-default" />
             <input type="button" value="Pass" onclick="location.href='@Url.Action("Pass", "Story")'" class="btn" />
         </div>
     </div>
