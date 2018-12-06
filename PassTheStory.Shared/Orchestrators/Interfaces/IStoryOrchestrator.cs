@@ -15,6 +15,7 @@ namespace PassTheStory.Shared.Orchestrators.Interfaces
         Task<int> FinishStory(Guid storyId);
         Task<List<StoryViewModel>> GetFinishedStories();
         Task<List<StoryViewModel>> GetNewPrompts();
-
+        Task<List<StoryViewModel>> GetMyContributions(string user);
+        Task<List<StoryViewModel>> GetMyNextStories(string user);
     }
 }

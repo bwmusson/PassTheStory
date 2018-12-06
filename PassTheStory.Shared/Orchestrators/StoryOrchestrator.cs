@@ -202,6 +202,8 @@ namespace PassTheStory.Shared.Orchestrators
             return stories;
         }
 
+
+
         public async Task<StoryViewModel> GetStory(Guid id)
         {
             var story = await _storyContext.Stories
@@ -238,6 +240,51 @@ namespace PassTheStory.Shared.Orchestrators
                 }
             
             return storyView;
+        }
+        public async Task<List<StoryViewModel>> GetMyContributions(string user)
+        {
+            var st = await _storyContext.Stories.ToListAsync();
+
+            List<StoryViewModel> stories = new List<StoryViewModel>();
+
+            foreach (Story s in st)
+            {
+                StoryViewModel svm = new StoryViewModel{ 
+                    StoryId = s.StoryId,
+                    StoryName = s.StoryName,
+                    Parts = new List<StoryPartViewModel>()
+                };
+
+                foreach (StoryPart sp in s.Parts)
+                {
+                    StoryPartViewModel spvm = new StoryPartViewModel{
+                        CreatedDateTime = sp.CreatedDateTime,
+                        PartNumber = sp.PartNumber,
+                        PartText = sp.PartText,
+                        Author = sp.Author,
+                        StoryId = sp.StoryId,
+                        StoryName = sp.StoryName,
+                        Story = svm
+                    };
+                    
+                    if (spvm.Author == user)
+                    {
+                        svm.Parts.Add(spvm);
+                    }
+                    
+                }
+                if (svm.Parts.Count > 0)
+                {
+                    stories.Add(svm);
+                }
+            }
+
+            if (stories == null)
+            {
+                return new List<StoryViewModel>();
+            }
+
+            return stories;
         }
 
         public async Task<StoryViewModel> GetFinishedTopicStory(string keyword)
@@ -287,6 +334,46 @@ namespace PassTheStory.Shared.Orchestrators
             var story = _storyContext.Stories.Find(storyId);
             story.NextAuthor = nextAuthor;
             return await _storyContext.SaveChangesAsync();
+        }
+
+        public async Task<List<StoryViewModel>> GetMyNextStories(string user)
+        {
+            var st = await _storyContext.Stories
+                .Where(x => x.NextAuthor == user)
+                .ToListAsync();
+
+            if (st == null)
+            {
+                return new List<StoryViewModel>();
+            }
+
+            List<StoryViewModel> stories = new List<StoryViewModel>();
+
+            foreach (Story s in st)
+            {
+                StoryViewModel svm = new StoryViewModel{ 
+                    StoryId = s.StoryId,
+                    StoryName = s.StoryName,
+                    Parts = new List<StoryPartViewModel>()
+                };
+
+                foreach (StoryPart sp in s.Parts)
+                {
+                    StoryPartViewModel spvm = new StoryPartViewModel{
+                        CreatedDateTime = sp.CreatedDateTime,
+                        PartNumber = sp.PartNumber,
+                        PartText = sp.PartText,
+                        Author = sp.Author,
+                        StoryId = sp.StoryId,
+                        StoryName = sp.StoryName,
+                        Story = svm
+                    };
+                        svm.Parts.Add(spvm);
+                }
+                    stories.Add(svm);
+            }
+
+            return stories;
         }
     }
 }

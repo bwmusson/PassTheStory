@@ -1,0 +1,26 @@
+﻿@model PassTheStory.Web.Models.StoryDisplayModel
+
+@{
+    ViewBag.Title = "My Next Stories";
+}
+
+<h2>My Next Stories</h2>
+
+<table class="table">
+    <tr>
+        <th>Story Name</th>
+        <th>Last Part</th>
+        <th>&nbsp;</th>
+    </tr>
+    @foreach (var story in Model.Stories)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(story.StoryName, "ViewStory", "Story", new { id = story.StoryId }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => story.Parts[story.Parts.Count - 1].PartText)
+            </td>
+        </tr>
+    }
+</table>

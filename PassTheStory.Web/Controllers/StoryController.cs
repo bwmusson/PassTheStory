@@ -29,7 +29,7 @@ namespace PassTheStory.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetAllStories()
+        public async Task<ActionResult> AllStories()
         {
             var storyDisplayModel = new StoryDisplayModel()
             {
@@ -38,7 +38,33 @@ namespace PassTheStory.Web.Controllers
             return View(storyDisplayModel);
         }
 
-        public async Task<ActionResult> GetFinishedStories()
+        public async Task<ActionResult> MyContributions()
+        {
+            string user = System.Web.HttpContext.Current.GetOwinContext()
+                .GetUserManager<ApplicationUserManager>()
+                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).UserName;
+
+            var storyDisplayModel = new StoryDisplayModel()
+            {
+                Stories = await _storyOrchestrator.GetMyContributions(user)
+            };
+            return View(storyDisplayModel);
+        }
+
+        public async Task<ActionResult> MyNextStories()
+        {
+            string user = System.Web.HttpContext.Current.GetOwinContext()
+                .GetUserManager<ApplicationUserManager>()
+                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).UserName;
+
+            var storyDisplayModel = new StoryDisplayModel()
+            {
+                Stories = await _storyOrchestrator.GetMyNextStories(user)
+            };
+            return View(storyDisplayModel);
+        }
+
+        public async Task<ActionResult> FinishedStories()
         {
             var storyDisplayModel = new StoryDisplayModel()
             {
@@ -46,7 +72,7 @@ namespace PassTheStory.Web.Controllers
             };
             return View(storyDisplayModel);
         }
-        public async Task<ActionResult> GetNewPrompts()
+        public async Task<ActionResult> NewPrompts()
         {
             var storyDisplayModel = new StoryDisplayModel()
             {
@@ -71,7 +97,7 @@ namespace PassTheStory.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddPrompt(StoryPartModel prompt)
+        public async Task<ActionResult> CreatePrompt(StoryPartModel prompt)
         {
             if (ModelState.IsValid)
             {

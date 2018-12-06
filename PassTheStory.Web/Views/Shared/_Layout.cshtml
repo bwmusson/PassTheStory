@@ -13,34 +13,31 @@
 </head>
 <body class="fullContent">
     @using Microsoft.AspNet.Identity;
+    <!--Authenticated Top Bar-->
     @if (Request.IsAuthenticated)
     {
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding-top: 0px;">
-            <a href="@Url.Action("Index", "Home")" class="navbar-brand">Pass The Story</a>
-            <div>
-                <ul class="navbar-nav">
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li class="nav-item active">
-                            <a href="@Url.Action("Index", "Home")" class="navbar-brand">Admin</a>
-                        </li>
-                    }
-                </ul>
-            </div>
+    <nav class="navbar navbar-expand-lg nav">
+        <a href="@Url.Action("Index", "Home")" class="navbar-brand nav-link">
+            <h2 class="align-top">
+                <img src="~/Content/images/PTS-Logo.png" width="60" height="60" class="d-inline-block " alt="Pass The Story Logo">
+                Pass The Story
+            </h2>
+        </a>
 
-            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right ml-auto" }))
-            {
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right ml-auto nav-link" }))
+        {
 
-                <ul class="nav navbar-nav">
-                    <li>
-                        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                    </li>
-                    <li class="pl-3"><a href="javascript:document.getElementById('logoutForm').submit()">Log Off</a></li>
-                </ul>
-            }
-        </nav>
+            <ul class="nav navbar-nav">
+                <li>
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
+                </li>
+                <li class="pl-3"><a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link">Log Off</a></li>
+            </ul>
+        }
+    </nav>
     }
-    else
+    <!--Unauthenticated Top Bar-->
+    @if (!(Request.IsAuthenticated))
     {
         <nav class="navbar navbar-expand-lg nav">
             <a href="@Url.Action("Index", "Home")" class="navbar-brand nav-link">
@@ -51,39 +48,72 @@
             </a>
             <div class="navbar-right ml-auto">
                 <ul class="nav navbar-nav nav-pills">
-                    <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Join Us", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Log In", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "pl-3 nav-link" })</li>
                 </ul>
             </div>
         </nav>
     }
+ 
         <div class="row" style="min-height: 100%;">
+            <!--Authenticated Sidebar/Body-->
             @if (Request.IsAuthenticated)
-            {
-
-
-            }
-            else
             {
                 <nav class="container col-2 nav-column">
                     <ul class="nav flex-column nav-pills">
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index", "Home")">About PTS</a>
+                            @if (ViewBag.Title != "Home")
+                            {
+                                <a class="nav-link" href="@Url.Action("Index", "Home")">About PTS</a>
+                            }
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("NewPrompts", "Story")">New Prompts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("FinishedStories", "Story")">Finished Stories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("MyNextStories", "Story")">My Next Stories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("MyContributions", "Story")">My Contributions</a>
+                        </li>
+                        <li>
+                            <br />
+                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item active">
+                                <a href="@Url.Action("Index", "Home")" class="nav-link">Administer Site</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+                <div class="body-content container col-10">
+                    @RenderBody()
+                    <hr />
+                    <footer>
+                        <p>&copy; @DateTime.Now.Year - Pass The Story</p>
+                    </footer>
+                </div>
+            }
+            <!--Unauthenticated Sidebar/Body-->
+            @if (!(Request.IsAuthenticated))
+            {
+                <nav class="container col-2 nav-column">
+                    <ul class="nav flex-column nav-pills">
+                        <li class="nav-item">
+                            @if (ViewBag.Title != "Home")
+                            {
+                                <a class="nav-link" href="@Url.Action("Index", "Home")">About PTS</a>
+                            }
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("GetNewPrompts", "Story")">New Prompts</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("GetFinishedStories", "Story")">Finished Stories</a>
-                        </li>
-                        <li>
-                            <br />
-                        </li>
-                        <li>
-                            <br />
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Register", "Account")">Join Us</a>
                         </li>
                     </ul>
                 </nav>

@@ -28,6 +28,7 @@ namespace PassTheStory.Web.Models
         [Required]
         public Boolean IsEnd { get; set; }
         public Guid StoryId { get; set; }
+        [Required]
         [MaxLength(100)]
         [Display(Name = "Story Name")]
         public string StoryName { get; set; }

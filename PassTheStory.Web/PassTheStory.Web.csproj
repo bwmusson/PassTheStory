@@ -338,13 +338,15 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Story\GetAllStories.cshtml" />
-    <Content Include="Views\Story\GetFinishedStories.cshtml" />
-    <Content Include="Views\Story\GetNewPrompts.cshtml" />
+    <Content Include="Views\Story\AllStories.cshtml" />
+    <Content Include="Views\Story\FinishedStories.cshtml" />
+    <Content Include="Views\Story\NewPrompts.cshtml" />
     <Content Include="Views\Story\ViewStory.cshtml" />
     <Content Include="Views\Story\CreatePrompt.cshtml" />
     <Content Include="Views\Story\AddPartPartial.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
+    <Content Include="Views\Story\MyContributions.cshtml" />
+    <Content Include="Views\Story\MyNextStories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

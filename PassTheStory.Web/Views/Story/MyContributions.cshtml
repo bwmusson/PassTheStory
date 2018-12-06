@@ -1,0 +1,36 @@
+﻿@model PassTheStory.Web.Models.StoryDisplayModel
+
+@{
+    ViewBag.Title = "My Contributions";
+}
+
+<h2>My Contributions</h2>
+
+<table class="table">
+    <tr>
+        <th>Part Text</th>
+        <th>Story Name</th>
+        <th>Part Number</th>
+        <th>Contributed On</th>
+    </tr>
+    @foreach (var story in Model.Stories)
+    {
+        foreach (var part in story.Parts)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => part.PartText)
+                </td>
+                <td>
+                    @Html.ActionLink(part.StoryName, "ViewStory", "Story", new { id = part.StoryId }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => part.PartNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => part.CreatedDateTime)
+                </td>
+            </tr>
+        }
+    }
+</table>

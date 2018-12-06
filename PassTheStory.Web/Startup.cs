@@ -12,6 +12,7 @@ namespace PassTheStory.Web
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            createRolesandUsers();
         }
 
         private void createRolesandUsers()   
@@ -64,7 +65,7 @@ namespace PassTheStory.Web
                 user2.UserName = "MobyRichard";   
                 user2.Email = "ben.musson@gmail.com";   
       
-                var chkUser2 = UserManager.Create(user1, userPWD);   
+                var chkUser2 = UserManager.Create(user2, userPWD);   
    
                 if (chkUser2.Succeeded)   
                 {   
