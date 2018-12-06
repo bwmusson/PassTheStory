@@ -11,6 +11,7 @@ using PassTheStory.Web.Models;
 
 namespace PassTheStory.Web.Controllers
 {
+    [HandleError]
     [Authorize]
     public class ManageController : Controller
     {

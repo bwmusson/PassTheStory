@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace PassTheStory.Web.Controllers
 {
+    [HandleError]
     [Authorize]
     public class AccountController : Controller
     {

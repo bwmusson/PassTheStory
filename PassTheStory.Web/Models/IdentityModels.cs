@@ -28,5 +28,6 @@ namespace PassTheStory.Web.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 }

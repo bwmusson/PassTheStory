@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace PassTheStory.Web.Controllers
 {
+    [HandleError]
     public class StoryController : Controller
     {
         private readonly IStoryOrchestrator _storyOrchestrator;
@@ -31,37 +32,52 @@ namespace PassTheStory.Web.Controllers
 
         public async Task<ActionResult> AllStories()
         {
-            var storyDisplayModel = new StoryDisplayModel()
+            if (Request.IsAuthenticated)
             {
-                Stories = await _storyOrchestrator.GetAllStories()
-            };
-            return View(storyDisplayModel);
+                var storyDisplayModel = new StoryDisplayModel()
+                {
+                    Stories = await _storyOrchestrator.GetAllStories()
+                };
+                return View(storyDisplayModel);
+            }
+
+            return View("~/Views/Home/Index.cshtml");
         }
 
         public async Task<ActionResult> MyContributions()
         {
-            var user = System.Web.HttpContext.Current.GetOwinContext()
-                .GetUserManager<ApplicationUserManager>()
-                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-
-            var storyDisplayModel = new StoryDisplayModel()
+            if (Request.IsAuthenticated)
             {
-                Stories = await _storyOrchestrator.GetMyContributions(user.UserName)
-            };
-            return View(storyDisplayModel);
+                var user = System.Web.HttpContext.Current.GetOwinContext()
+                    .GetUserManager<ApplicationUserManager>()
+                    .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+                var storyDisplayModel = new StoryDisplayModel()
+                {
+                    Stories = await _storyOrchestrator.GetMyContributions(user.UserName)
+                };
+                return View(storyDisplayModel);
+            }
+
+            return View("~/Views/Home/Index.cshtml");
         }
 
         public async Task<ActionResult> MyNextStories()
         {
-            var user = System.Web.HttpContext.Current.GetOwinContext()
-                .GetUserManager<ApplicationUserManager>()
-                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-
-            var storyDisplayModel = new StoryDisplayModel()
+            if (Request.IsAuthenticated)
             {
-                Stories = await _storyOrchestrator.GetMyNextStories(user.UserName)
-            };
-            return View(storyDisplayModel);
+                var user = System.Web.HttpContext.Current.GetOwinContext()
+                    .GetUserManager<ApplicationUserManager>()
+                    .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+                var storyDisplayModel = new StoryDisplayModel()
+                {
+                    Stories = await _storyOrchestrator.GetMyNextStories(user.UserName)
+                };
+                return View(storyDisplayModel);
+            }
+
+            return View("~/Views/Home/Index.cshtml");
         }
 
         public async Task<ActionResult> FinishedStories()
@@ -94,7 +110,12 @@ namespace PassTheStory.Web.Controllers
 
         public ActionResult CreatePrompt()
         {
-            return View();
+            if (Request.IsAuthenticated)
+            {
+                return View();
+            }
+
+            return View("~/Views/Home/Index.cshtml");
         }
 
         [HttpPost]
@@ -135,6 +156,7 @@ namespace PassTheStory.Web.Controllers
                 }
             }
             return View("CreatePrompt");
+
         }
 
         public async Task<ActionResult> Pass(StoryModel story)
@@ -157,7 +179,11 @@ namespace PassTheStory.Web.Controllers
         }
         public ActionResult AddPart(Guid story)
         {
-            return View();
+            if (Request.IsAuthenticated)
+            {
+                return View();
+            }
+            return View("~/Views/Home/Index.cshtml");
         }
 
         [HttpPost]
@@ -193,7 +219,7 @@ namespace PassTheStory.Web.Controllers
                     {
                         await _storyOrchestrator.FinishStory(part.StoryId);
                     }
-                    return View("Index");
+                    return View("~/Views/Home/Index.cshtml");
                 
                 }
                 catch (DataException dex)
@@ -202,6 +228,7 @@ namespace PassTheStory.Web.Controllers
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
                 }
             }
+
             return View("AddPart");
         }
     }

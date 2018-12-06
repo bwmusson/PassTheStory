@@ -243,6 +243,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StoryController.cs" />
@@ -333,15 +334,13 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Error\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -356,7 +355,7 @@
     <Content Include="Views\Story\NewPrompts.cshtml" />
     <Content Include="Views\Story\ViewStory.cshtml" />
     <Content Include="Views\Story\CreatePrompt.cshtml" />
-    <Content Include="Views\Shared\NotFound.cshtml" />
+    <None Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Story\MyContributions.cshtml" />
     <Content Include="Views\Story\MyNextStories.cshtml" />
     <Content Include="Views\Story\AddPart.cshtml" />
