@@ -40,15 +40,15 @@
             }
             @if (Model.IsFinished == false)
             {
-                if (Model.NextAuthor == System.Web.HttpContext.Current.GetOwinContext()
+                if (Request.IsAuthenticated == true && Model.NextAuthor == System.Web.HttpContext.Current.GetOwinContext()
                     .GetUserManager<ApplicationUserManager>()
                     .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).UserName)
                 {
                     <h3> TO BE CONTINUED...<a href="@Url.Action("AddPart", "Story", new { story = Request.Url.PathAndQuery.ToString().Substring(Request.Url.PathAndQuery.ToString().LastIndexOf("/") + 1)})"> BY YOU!</a></h3>
                 }
-                if (Model.NextAuthor != System.Web.HttpContext.Current.GetOwinContext()
+                if (Request.IsAuthenticated == false || (Request.IsAuthenticated == true && Model.NextAuthor != System.Web.HttpContext.Current.GetOwinContext()
                     .GetUserManager<ApplicationUserManager>()
-                    .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).UserName)
+                    .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId()).UserName))
                 {
                     <h3> TO BE CONTINUED...</h3>
                 }

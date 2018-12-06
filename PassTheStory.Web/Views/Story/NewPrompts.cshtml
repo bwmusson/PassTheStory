@@ -15,7 +15,14 @@
 @foreach (var item in Model.Stories) {
     <tr>
         <td>
-            @Html.ActionLink(item.StoryName, "ViewStory", "Story", new { id = item.StoryId }, null)
+            @if (Request.IsAuthenticated == true)
+            {
+                @Html.ActionLink(item.StoryName, "ViewStory", "Story", new { id = item.StoryId }, null)
+            }
+            @if (Request.IsAuthenticated == false)
+            {
+                @Html.DisplayFor(modelItem => item.StoryName)
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Parts[0].PartText)

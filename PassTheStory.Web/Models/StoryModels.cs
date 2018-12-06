@@ -27,6 +27,7 @@ namespace PassTheStory.Web.Models
         public string PartText { get; set; }
         public ApplicationUser Author { get; set; }
         [Required]
+        [Display(Name = "The End?")]
         public Boolean IsEnd { get; set; }
         public Guid StoryId { get; set; }
         [Required]
